@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.proitc</groupId>
+  <artifactId>effective-java</artifactId>
+  <version>0.0.1</version>
+
+  <packaging>pom</packaging>
+  <name>effective-java</name>
+  <description>Java Effective Samples</description>
+
+  <modules>
+    <module>exceptions</module>
+  </modules>
+
+  <properties>
+    <!-- Project configuration -->
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <!-- Test versions -->
+    <mockito-core.version>2.13.0</mockito-core.version>
+    <junit.jupiter.version>5.0.3</junit.jupiter.version>
+    <junit.vintage.version>${junit.version}.3</junit.vintage.version>
+    <junit.platform.version>1.0.3</junit.platform.version>
+    <apiguardian-api.version>1.0.0</apiguardian-api.version>
+    <!-- Plugins versions -->
+    <maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
+    <maven-surefire-plugin.version>2.20.1</maven-surefire-plugin.version>
+    <maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
+    <maven-pmd-plugin.version>3.9.0</maven-pmd-plugin.version>
+    <spotbugs-maven-plugin.version>3.1.1</spotbugs-maven-plugin.version>
+    <maven.sevntu.checkstyle.plugin.version>1.27.0</maven.sevntu.checkstyle.plugin.version>
+    <maven.sevntu.checkstyle.plugin.version>1.27.0</maven.sevntu.checkstyle.plugin.version>
+    <maven.sevntu-checkstyle-check.checkstyle.version>8.7</maven.sevntu-checkstyle-check.checkstyle.version>
+    <maven.jacoco.plugin.version>0.8.0</maven.jacoco.plugin.version>
+    <linkXRef>false</linkXRef>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <!-- Modules -->
+      <dependency>
+        <groupId>com.proitc</groupId>
+        <artifactId>exceptions</artifactId>
+        <version>0.0.1</version>
+      </dependency>
+
+      <!-- Testing dependencies -->
+      <dependency>
+        <groupId>org.mockito</groupId>
+        <artifactId>mockito-core</artifactId>
+        <version>${mockito-core.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-api</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- Only required to run tests in an IDE that bundles an older version -->
+      <dependency>
+        <groupId>org.junit.platform</groupId>
+        <artifactId>junit-platform-launcher</artifactId>
+        <version>${junit.platform.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- Only required to run tests in an IDE that bundles an older version -->
+      <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter-engine</artifactId>
+        <version>${junit.jupiter.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- Only required to run tests in an IDE that bundles an older version -->
+      <dependency>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <version>${junit.vintage.version}</version>
+        <scope>test</scope>
+      </dependency>
+      <!-- To avoid compiler warnings about @API annotations in JUnit code -->
+      <dependency>
+        <groupId>org.apiguardian</groupId>
+        <artifactId>apiguardian-api</artifactId>
+        <version>${apiguardian-api.version}</version>
+        <scope>test</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${maven-compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <version>${maven-checkstyle-plugin.version}</version>
+          <dependencies>
+            <dependency>
+              <groupId>com.github.sevntu-checkstyle</groupId>
+              <artifactId>sevntu-checkstyle-maven-plugin</artifactId>
+              <version>${maven.sevntu.checkstyle.plugin.version}</version>
+            </dependency>
+            <dependency>
+              <groupId>com.puppycrawl.tools</groupId>
+              <artifactId>checkstyle</artifactId>
+              <version>${maven.sevntu-checkstyle-check.checkstyle.version}</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <consoleOutput>true</consoleOutput>
+            <configLocation>./google_checks.xml</configLocation>
+            <excludes />
+          </configuration>
+          <executions>
+            <execution>
+              <id>checkstyle</id>
+              <phase>validate</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <failOnViolation>true</failOnViolation>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>${maven-surefire-plugin.version}</version>
+        <configuration>
+          <excludes>
+            <exclude>**/*IT.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${maven-pmd-plugin.version}</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <minimumTokens>100</minimumTokens>
+          <linkXref>true</linkXref>
+          <sourceEncoding>utf-8</sourceEncoding>
+          <targetJdk>${java.version.source}</targetJdk>
+          <skipEmptyReport>false</skipEmptyReport>
+          <ignoreLiterals>false</ignoreLiterals>
+          <excludes>
+            <exclude>**/generated-sources/**/*.java</exclude>
+          </excludes>
+          <excludeRoots>
+            <excludeRoot>${basedir}/target/generated-sources</excludeRoot>
+            <excludeRoot>${basedir}/target/generated-sources/annotations</excludeRoot>
+            <excludeRoot>${basedir}/target/generated-sources/xjc</excludeRoot>
+            <excludeRoot>${basedir}/target/generated-sources/cxf</excludeRoot>
+          </excludeRoots>
+          <rulesets>
+            <ruleset>${basedir}/pmd-rulesets.xml</ruleset>
+          </rulesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>${spotbugs-maven-plugin.version}</version>
+        <configuration>
+          <effort>Max</effort>
+          <threshold>Default</threshold>
+          <findbugsXmlOutput>true</findbugsXmlOutput>
+          <findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+          <omitVisitors />
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <version>${maven.jacoco.plugin.version}</version>
+        <configuration>
+          <dataFile>${project.build.directory}/jacoco/jacoco.exec</dataFile>
+          <excludes>
+            <exclude>com/puppycrawl/tools/checkstyle/ant/CheckstyleAntTask*.class</exclude>
+            <exclude>com/puppycrawl/tools/checkstyle/grammars/*.class</exclude>
+            <exclude>com/puppycrawl/tools/checkstyle/grammars/javadoc/*.class</exclude>
+            <exclude>com/puppycrawl/tools/checkstyle/gui/*.class</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
